@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
+string = input("Give me a string: ")
 
-user_string = input("Give me a string: ")
-
-print(user_string.swapcase()) #สลับเล็กใหญ่
+print(string.swapcase())

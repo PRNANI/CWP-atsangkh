@@ -1,0 +1,68 @@
+def checkmate(board):
+    if not board or not isinstance(board, str):
+        return
+
+    lines = []
+    for line in board.splitlines():
+        if line:
+            lines.append(line)
+            
+    if not lines:
+        return
+
+    size = len(lines)
+
+    for line in lines:
+        if len(line) != size:
+            return
+
+    king_r = -1
+    king_c = -1 
+    king_count = 0
+
+    for r in range(size):
+        for c in range(size):
+            if lines[r][c] == 'K':
+                king_r = r
+                king_c = c
+                king_count += 1
+
+    if king_count != 1:
+        return
+
+    straight_directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    for dr, dc in straight_directions:
+        r = king_r + dr 
+        c = king_c + dc
+        while 0 <= r < size and 0 <= c < size:
+            piece = lines[r][c]
+            if piece != '.':
+                if piece == 'R' or piece == 'Q':
+                    print("Success")
+                    return
+                break
+            r += dr
+            c += dc
+
+    diagonal_directions = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
+    for dr, dc in diagonal_directions:
+        r = king_r + dr
+        c = king_c + dc
+        while 0 <= r < size and 0 <= c < size:
+            piece = lines[r][c]
+            if piece != '.':
+                if piece == 'B' or piece == 'Q':
+                    print("Success")
+                    return
+                break
+            r += dr
+            c += dc
+
+    pawn_positions = [(king_r + 1, king_c - 1), (king_r + 1, king_c + 1)]
+    for pr, pc in pawn_positions:
+        if 0 <= pr < size and 0 <= pc < size:
+            if lines[pr][pc] == 'P':
+                print("Success")
+                return
+
+    print("Fail")
